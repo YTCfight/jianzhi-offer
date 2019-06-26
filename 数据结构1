@@ -1,0 +1,163 @@
+1.题目一：找出数组中重复的数字
+在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。
+也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+int duplicate(int arr[], int len)
+{
+	assert(arr != NULL);
+	int i = 0;
+	if (len <= 0)
+	{
+		return -1;
+	}
+	for (i = 0; i < len; i++)
+	{
+		if (arr[i] < 0 || arr[i] >= len)
+		{
+			return -1;
+		}
+	}
+	for (i = 0; i < len; i++)
+	{
+		while (arr[i] != i)
+		{
+			if (arr[i] == arr[arr[i]])
+			{
+				return arr[i];
+			}
+			int tmp = arr[i];
+			arr[i] = arr[tmp];
+			arr[tmp] = tmp;
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int arr[] = { 2, 3, 1,0, 2, 5, 3 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int ret=duplicate(arr, len);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
+2.不修改数组找出重复的数字
+在一个长度为n+1的数组里的所有数字都在1到n的范围内，所以数组中至少有一个数字是重复的。
+请找出数组中任意一个重复的数字，但不能修改输入的数组。例如，如果输入长度为8的数组{2, 3, 5, 4, 3, 2, 6, 7}，那么对应的输出是重复的数字2或者3。
+int countRange(int arr[], int len, int start, int end)
+{
+	assert(arr != NULL);
+	int count = 0;
+	int i = 0;
+	for (i = 0; i < len; i++)
+	{
+		if (arr[i] >= start && arr[i] <= end)
+		{
+			count++;
+		}
+	}
+	return count;
+}
+int getDuplicate(int arr[], int len)
+{
+	assert(arr != NULL);
+	int i = 0;
+	if (len <= 0)
+	{
+		return -1;
+	}
+	for (i = 0; i < len; i++)
+	{
+		if (arr[i] < 0 || arr[i] >= len)
+		{
+			return -1;
+		}
+	}
+	int start = 1;
+	int end = len - 1;
+	while (end >= start)
+	{
+		int mid = start + (end - start) / 2;
+		int count = countRange(arr, len, start, mid);
+		if (end == start)
+		{
+			if (count > 1)
+			{
+				return end;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if (count > mid - start + 1)
+		{
+			end = mid;
+		}
+		else
+		{
+			start = mid + 1;
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int arr[] = { 2, 3, 1, 0, 2, 5, 3 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int ret = getDuplicate(arr, len);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
+3.替换空格
+请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+void Replace(char arr[], int len)
+{
+	assert(arr != NULL);
+	if (len <= 0)
+	{
+		return;
+	}
+	int numberOfBlank = 0;
+	int i = 0;
+	int originallen = 0; //数组arr实际的长度
+	int newlen = 0;      //加入“%20”后数组的长度
+	while (arr[i] != '\0')
+	{
+		if (arr[i] == ' ')
+		{
+			numberOfBlank++;
+		}
+		originallen++;
+		i++;
+	}
+	newlen = originallen + numberOfBlank * 2;
+	if (newlen > len)
+	{
+		return;
+	}
+	while (originallen > 0 && newlen > originallen)
+	{
+		if (arr[originallen] == ' ')
+		{
+			arr[newlen--] = '0';
+			arr[newlen--] = '2';
+			arr[newlen--] = '%';
+		}
+		else
+		{
+			arr[newlen--] = arr[originallen];
+		}
+		originallen--;
+	}
+}
+int main()
+{
+	char arr[30] = "we are happy.";
+	int len = sizeof(arr) / sizeof(arr[0]);
+	Replace(arr, len);
+	printf("%s\n", arr);
+	system("pause");
+	return 0;
+}
+
