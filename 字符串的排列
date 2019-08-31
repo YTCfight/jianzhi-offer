@@ -1,0 +1,58 @@
+//字符串的排列
+//https://www.cnblogs.com/cxjchen/p/3932949.html
+//方法一
+static int count = 0;
+
+void swap(char* str, int a, int b)
+{
+     char tmp = str[a];
+     str[a] = str[b];
+     str[b] = tmp;
+}
+int is_swap(char *str, int begin, int k) //判断从子串的第一个字符串开始，直到k-1位置，看是否有重复的字符
+ {  
+     int i=0;
+	 int flag = 1;
+     for (i = begin; i < k; i++)
+	 {
+         if (str[i] == str[k])
+		 {
+             flag = 0;
+             break;
+		 }
+	}
+    return flag;
+}
+void full_permutation(char* str, int begin, int end)
+{
+     if (begin == end)
+    {
+		 printf("%s ", str);
+        count++;//此处可以输出字符串或者记录字符串
+        return;
+     }
+	else
+	{
+         int i;
+         for (i = begin; i <= end; i++)
+        {
+            if (is_swap(str, begin, i))
+           {
+                swap(str, begin, i);
+                 full_permutation(str, begin + 1, end);
+                 swap(str, begin, i);
+           }
+        }
+
+	}
+ }
+
+int main()
+ {
+     char str[5] = "abcd";
+     full_permutation(str, 0, 3);
+	 printf("\n"); 
+      printf("count=%d\n", count);
+	 system("pause");
+     return 0;
+ }
