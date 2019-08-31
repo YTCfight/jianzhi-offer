@@ -1,0 +1,76 @@
+//	求第n个丑数
+//方法一：暴力解题法
+int SeekNUglyNumber(int input)
+{
+	int i = 1;
+	int count = 0;// 记录丑数的个数
+	int tmp = 0;  //记录当前数字
+	while (count < input)
+	{
+		int ret = i;
+		while (ret % 2 == 0)
+		{
+			ret /= 2;
+		}
+		while (ret % 3 == 0){
+			ret /= 3;
+		}
+		while (ret % 5 == 0)
+		{
+			ret /= 5;
+		}
+		if (ret == 1)
+		{
+			tmp = i;
+			count++;
+		}
+		i++;
+	}
+	return tmp;
+}
+
+
+#define number 8
+//方法二：
+//在已经是丑数的数组中寻找
+int Min(int pUglyNumber2, int pUglyNumber3, int pUglyNumber5)
+{
+	int min = (pUglyNumber2 < pUglyNumber3) ? pUglyNumber2 : pUglyNumber3;
+	return (min < pUglyNumber5) ? min : pUglyNumber5;
+}
+int SeekNUglyNumber1(int input)
+{
+	int pUglyNumber[number] = { 0 }; //包含丑数的数组
+	int index = 1; //  丑数数组的下标
+	*pUglyNumber = 1;
+	int *pUglyNumber2 = pUglyNumber;
+	int *pUglyNumber3 = pUglyNumber;
+	int *pUglyNumber5 = pUglyNumber;
+	while (index < input)
+	{
+		pUglyNumber[index] = Min(*pUglyNumber2 * 2, *pUglyNumber3 * 3, *pUglyNumber5 * 5);
+		while (*pUglyNumber2 * 2 <= pUglyNumber[index])
+		{
+			pUglyNumber2++;
+		}
+		while (*pUglyNumber3 * 3 <= pUglyNumber[index])
+		{
+			pUglyNumber3++;
+		}
+		while (*pUglyNumber5 * 5 <= pUglyNumber[index])
+		{
+			pUglyNumber5++;
+		}
+		index++;
+	}
+	return pUglyNumber[index - 1];
+}
+int main()
+{
+	// int input = 0;
+	//scanf("%d", &input);
+	int ret = SeekNUglyNumber1(number);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
