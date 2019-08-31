@@ -1,0 +1,73 @@
+//最小的k个数字
+//快速排序算法里的partition函数用来解决这样一个问题：
+//给定一个数组arr[]和数组中任意一个元素a，重排数组使得a左边都小于它，右边都不小于它。
+void swap(int* left, int *right)
+{
+	int a = 0;
+	a = *left;
+	*left = *right;
+	*right = a;
+}
+int Partion(int arr[], int left, int right)
+{
+	int tmp = arr[left];
+	while (right > left)
+	{
+		while (right>left && arr[right] >= tmp)
+		{
+			right--;
+		}
+		if (left >= right)
+		{
+			break;
+		}
+		else
+		{
+			arr[left] = arr[right];
+		}
+		while (right>left && arr[left] <= tmp)
+		{
+			left++;
+		}
+		if (left >= right)
+		{
+			break;
+		}
+		else
+		{
+			arr[right] = arr[left];
+		}
+	}
+	arr[left] = tmp;
+	return left;
+}
+int main()
+{
+	int arr[] = { 2,7 , 9, 0, 4, 3, 6, 5 };
+	int start = 0;
+	int end = 7;
+	int k = 0;
+	scanf("%d", &k);
+	int ret = Partion(arr, start, end);
+	while (ret!=k-1)
+	{
+		if (ret > k - 1)
+		{
+			end = ret - 1;
+			ret = Par(arr, start, end);
+		}
+		else
+		{
+			start = ret + 1;
+			ret = Par(arr, start, end);
+		}
+	}
+	int i = ret;
+	for (i = 0; i <= ret; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+	system("pause");
+	return 0;
+}
