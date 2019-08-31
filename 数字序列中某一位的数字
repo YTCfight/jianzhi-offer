@@ -1,0 +1,75 @@
+//数字序列中某一位的数字
+//方法一
+int fun(int input)
+{
+	int n = 0;
+	int count = 0;
+	while (count != input)
+	{
+		int high = n;//防止n变化，把n的值赋值给high
+		while (high)
+		{
+			count++;
+			high /= 10;
+		}
+		if (count < input)
+		{
+			n++;
+		}
+		else if (count>input)
+		{
+
+			int cur = 0;//计算数字n的位数
+			while (count != input)
+			{
+				cur++;
+				count--;
+			}
+			return (n / (int)pow(10, cur))%10;
+		}
+	}
+	return n % 10;
+}
+int main()
+{
+	int input = 0;
+	scanf("%d", &input);
+	int ret = fun(input);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
+//#endif
+//方法二:利用规律
+//https://www.jianshu.com/p/0bbf1fcbe070
+int fun(int input)
+{
+	if (input <= 9)
+	{
+		return input % 10;
+	}
+	//确定该数字是几位数
+	int tmp = 1;//数字位数
+	int high = 9;//数字次序
+	int high1 = -1;
+	while (high < input)
+	{
+		tmp++;
+		high1 = high;
+		high += 9 *(int) pow(10, tmp - 1)*tmp;
+	}
+	//确定属于哪个数
+	int cur = (int)pow(10, tmp - 1) + (input - high1 - 1) / tmp;
+	//确定是该数中的哪一位
+	int ret = input - (high1 + 1) - (cur - (int)pow(10, tmp - 1))*tmp;
+	return (cur / (int)pow(10, tmp - 1 - ret)) % 10;
+}
+int main()
+{
+	int input = 0;
+	scanf("%d", &input);
+	int ret = fun(input);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
