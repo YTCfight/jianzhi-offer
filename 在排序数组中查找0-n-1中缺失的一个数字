@@ -1,0 +1,36 @@
+//在排序数组中查找0-n-1中缺失的一个数字
+//好好理解一下.
+int SeekDefectNumber(int arr[], int len)
+{
+	int left = 0;
+	int right = len - 1;
+	int mid = 0;
+	while (left <= right)
+	{
+		mid = left + (right - left);
+		if (arr[mid] != mid)
+		{
+			if (mid == 0 || arr[mid - 1] == mid - 1)
+				return mid;
+			right = mid - 1;
+		}
+		else
+		{
+			left = mid + 1;
+		}
+	}
+	if (left == len)
+	{
+		return len;
+	}
+	return -1;
+}
+int main()
+{
+	int arr[] = { 0, 1, 2, 3, 4, 5, 6,7, 8, 9 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int ret = SeekDefectNumber(arr, len);
+	printf("%d\n",ret);
+	system("pause"); 
+	return 0;
+}
