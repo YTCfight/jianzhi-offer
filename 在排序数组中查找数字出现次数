@@ -1,0 +1,139 @@
+//在排序数组中查找数字出现次数
+//二分查找法
+int SeekNumberTime(int arr[], int len, int input)
+{
+	int left = 0;
+	int right = len - 1;
+	int mid = 0;
+	int tmp = 0;
+	int count = 0;
+	while (left <= right)
+	{
+		mid = left + (right - left) / 2;
+		if (arr[mid] > input)
+		{
+			right = mid - 1;
+		}
+		else if (arr[mid] < input)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			tmp = mid;
+			//先算左边的个数
+			while (arr[tmp] == input)
+			{
+				count++;
+				tmp--;
+			}
+			//算右边的个数
+			while (arr[mid + 1] == input)
+			{
+				count++;
+				mid++;
+			}
+			return count;
+		}
+	}
+	return 0;
+}
+//方法二
+int GetFirstK(int arr[], int mid, int input,int left,int right)
+{
+	left = 0;
+	right = mid;
+	if (arr[mid - 1] == input)
+	{
+		while (left <= right)
+		{
+			mid = left + (right - left)/2;
+			if (arr[mid] < input)
+			{
+				left = mid + 1;
+			}
+			else if (arr[mid] == input && arr[mid - 1] != input)
+			{
+				return mid;
+			}
+			else if (arr[mid] == input && arr[mid - 1] == input)
+			{
+				right = mid - 1;
+			}
+		}
+	}
+	else
+	{
+		return mid;
+	}
+}
+int GetEndK(int arr[], int mid, int input, int left, int right, int len)
+{
+	left = mid;
+	right = len - 1;
+	if (arr[mid + 1] == input)
+	{
+		while (left <= right)
+		{
+			mid = left + (right - left) / 2;
+			if (arr[mid] > input)
+			{
+				right = mid - 1;
+			}
+			else if (arr[mid] == input && arr[mid + 1] != input)
+			{
+				return mid;
+			}
+			else if (arr[mid] == input && arr[mid + 1] == input)
+			{
+				left = mid + 1;
+			}
+		}
+	}
+	else
+	{
+		return mid;
+	}
+}
+int SeekNumberTime1(int arr[], int len, int input)
+{
+	int left = 0;
+	int right = len - 1;
+	int first = 0;
+	int end = 0;
+	int count = 0;
+	while (left <= right)
+	{
+		int mid = left + (right - left);
+		if (arr[mid] > input)
+		{
+			right = mid - 1;
+		}
+		else if (arr[mid] < input)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			first = GetFirstK(arr, mid, input, left, right);
+			end = GetEndK(arr, mid, input, left, right, len);
+			break;
+		}
+	}
+	if (left > right)
+	{
+		return 0;
+	}
+	return end - first + 1;
+}
+int main()
+{
+	int arr[] = { 1, 2, 4, 5, 7, 8, 9, 9, 9, 10, 12, 19 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int input = 0;
+	scanf("%d", &input);
+	int ret = SeekNumberTime1(arr, len, input);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
