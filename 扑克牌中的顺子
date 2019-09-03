@@ -1,0 +1,75 @@
+//扑克牌中的顺子
+int JudgeShunzi(int arr[], int a)
+{
+	int i = 0;
+	int j = 0;
+	int p = 0;
+	//先进行一次排序
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4-i; j++)
+		{
+			if (arr[j]>arr[j + 1])
+			{
+				p= arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = p;
+			}
+		}
+	}
+	//查看排序完的结果
+	for (int i = 0; i < 5; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+	//如果有重复的数字直接返回否
+	int SumOf0 = 0;
+	int SumOfBlank = 0;
+	for (i = 0; i < 5; i++)
+	{
+		if (arr[i] == 0)
+		{
+			SumOf0++;
+			continue;
+		}
+		if (i < 4)
+		{
+			SumOfBlank += arr[i + 1] - arr[i]-1;
+		}
+		//如果有重复的数字直接返回否
+		if (arr[i] == arr[i + 1])
+		{
+			return 0;
+		}
+	}
+	if (SumOf0 >= SumOfBlank || SumOfBlank==0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+int main()
+{
+	srand((unsigned int)time(NULL));
+	int ret = rand() % 14;
+	int arr[5] = { 0 };
+	for (int i = 0; i < 5; i++)
+	{
+		ret = rand() % 14;
+		arr[i] = ret;
+	}
+	//查看生成的随机数组
+	for (int i = 0; i < 5; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+	int tmp = JudgeShunzi(arr, 5);
+	printf("%d\n", tmp);
+	system("pause");
+	return 0;
+}
