@@ -1,0 +1,52 @@
+//圆圈中最后剩下的数字
+//1.用单链表 2.用数组循环 3.利用规律
+//方法二
+int RemainOneNumber(int arr[], int len, int input)
+{
+	int flag = 0;
+	int i = 0;
+	while (len > 1)
+	{
+		flag = (i + input-1)%len;
+		i = flag;
+		for (int j = flag; j < len-1; j++)
+		{
+			arr[j] = arr[j + 1];
+		}
+		len--;
+	}
+	return arr[0];
+}
+int main()
+{
+	int arr[] = { 0, 1, 2, 3, 4 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int input = 0;
+	scanf("%d", &input);
+	int ret = RemainOneNumber(arr, len, input);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
+//#endif
+//方法三
+int RemainOneNumber(int arr[], int len, int input)
+{
+	int last = 0;
+	for (int i = 2; i <= len; i++)
+	{
+		last = (last + input) % i;
+	}
+	return last;
+}
+int main()
+{
+	int arr[] = { 0, 1, 2, 3, 4 };
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int input = 0;
+	scanf("%d", &input);
+	int ret = RemainOneNumber(arr, len, input);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
