@@ -1,0 +1,85 @@
+ //初始化结点
+ void InitNode(Plist past)
+{
+	assert(past != NULL);
+	past->data = -1;
+	past->next = NULL;
+}
+
+//得到一个结点
+
+struct Node* GetNode(int val)
+{
+	Node* pGet = (Node*)malloc(sizeof(Node));
+	assert(pGet != NULL);
+	pGet->data = val;
+	pGet->next = NULL;
+	return pGet;
+}
+//尾插
+void InsertTail(Plist past,int val)
+{
+	Node* pGet = GetNode(val);
+	assert(pGet != NULL);
+	Node* p = past;
+	while (p->next != NULL)
+	{
+		p = p->next;
+	}
+	p->next = pGet;
+
+}
+//圆圈中剩下最后的数字
+int NumberOfLast(Plist plist,int input)
+{
+	Node* p = plist->next;
+	int count = 1;
+	while (p->next != NULL)
+	{
+		p = p->next;
+		count++;
+	}
+	//当input等于1时特殊处理，直接返回最后一个数字。
+	if (input == 1)
+	{
+		return p->data; 
+	}
+	p->next = plist->next;
+	p = plist->next;
+	/*检查一下是否形成圆环
+	//show2(p)*/
+	Node* q = NULL;
+	while (count>1)
+	{
+		int tmp = input;
+		while (tmp-1)
+		{
+			q = p;
+			p = p->next;
+			tmp--;
+		}
+		//删除指定的结点
+		q->next = p->next;
+		p = p->next;
+		q = q->next;
+		count--;
+	}
+	return q->data;
+}
+
+
+int main()
+{
+	//圆圈中最后剩下的数字
+	Node head;
+	InitNode(&head);
+	InsertTail(&head, 0);
+	InsertTail(&head, 1);
+	InsertTail(&head, 2);
+	InsertTail(&head, 3);
+	InsertTail(&head, 4);
+	int ret=NumberOfLast(&head, 3 );
+	printf("%d\n", ret);
+  system("pause");
+  return 0;
+  }
