@@ -1,0 +1,49 @@
+//旋转数组中最小数字
+//二分法
+int RotateMinNumber(int arr[], int len)
+{
+	int left = 0;
+	int right = len - 1;
+	//当旋转0个元素时
+	if (arr[left] < arr[right])
+	{
+		return arr[left];
+	}
+	while (left < right)
+	{
+		int mid = left + (right - left) / 2;
+		if (mid - 1 == left || mid+1==right)
+		{
+			return arr[mid];
+		}
+		else if (arr[mid]>arr[left])
+		{
+			left = mid;
+		}
+		else if (arr[mid] < arr[right])
+		{
+			right = mid;
+		}
+		//特殊情况：当arr[left]=arr[right]=arr[mid]时
+		else if (arr[left] == arr[mid] && arr[mid] == arr[right])
+		{
+			for (int i = left; i < right; i++)
+			{
+				if (arr[i] < arr[left])
+				{
+					return arr[i];
+				}
+			}
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int arr[] = {1,0,1,1,1};
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int ret = RotateMinNumber(arr, len);
+	printf("%d\n", ret);
+	system("pause");
+	return 0;
+}
