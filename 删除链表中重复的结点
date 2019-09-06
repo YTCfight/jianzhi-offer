@@ -1,0 +1,72 @@
+//删除链表中重复的结点(在排序的链表中)
+typedef struct Node
+{
+	int data;
+	struct Node* next;
+}Node, *pList;
+void InitNode(pList Node)
+{
+	assert(Node != NULL);
+	Node->data = -1;
+	Node->next = NULL;
+}
+Node* GetNode(int val)
+{
+	Node* p = (Node*)malloc(sizeof(Node));
+	assert(p != NULL);
+	p->data = val;
+	p->next = NULL;
+	return p;
+}
+//尾插
+void InsertTail( pList head,int val)
+{
+	Node* pGet = GetNode(val);
+	assert(pGet != NULL);
+	Node* p = head;
+	while (p->next != NULL)
+	{
+		p = p->next;
+	}
+	p->next = pGet;
+}
+void Show(Node* head)
+{
+	Node* p = head->next;
+	while (p!= NULL)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+  	printf("\n");
+}
+void DeleteRepeatPoint(Node* head)
+{
+	Node* p = head->next;
+	Node* q = p->next;
+	while (q!= NULL)
+	{
+		while(p->data == q->data)
+		{
+			q = q->next;
+		}
+		p->next = q;
+		p = q;
+		q = q->next;
+	}
+}
+int main()
+{
+	Node head;
+	InitNode(&head);
+	InsertTail(&head, 1);
+	InsertTail(&head, 2);
+	InsertTail(&head, 2);
+	InsertTail(&head, 2);
+	InsertTail(&head, 4);
+	InsertTail(&head, 5);
+	DeleteRepeatPoint(&head);
+	Show(&head);
+	system("pause");
+	return 0;
+}
