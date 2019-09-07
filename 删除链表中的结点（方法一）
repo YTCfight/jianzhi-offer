@@ -1,0 +1,100 @@
+//方法一(遍历的方法）
+typedef struct Node
+{
+	int data;
+	struct Node* next;
+}Node, *pList;
+//初始化单链表
+void InitNode(pList head)
+{
+	head->data = -1;
+	head->next = NULL;
+}
+//得到一个结点
+Node* GetNode(int val)
+{
+	Node* pGet = (Node*)malloc(sizeof(Node));
+	assert(pGet != NULL);
+	pGet->data = val;
+	pGet->next = NULL;
+	return pGet;
+}
+//尾插法
+void InsertTail(Node* head, int val)
+{
+	Node* p = GetNode(val);
+	assert(p != NULL);
+	Node* q = head;
+	while (q->next != NULL)
+	{
+		q = q->next;
+	}
+	q->next = p;
+}
+void Show(pList head)
+{
+	Node* p = head->next;
+	while (p != NULL)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+}
+//根据输入的数值查找该数值的地址
+Node* SeekAddress(Node* head, int val)
+{
+	Node* p = head->next;
+	while (p != NULL)
+	{
+		if (p->data == val)
+		{
+			return p;
+		}
+		p = p->next;
+	}
+	return NULL;
+}
+void DeletePoint(Node* head, Node* point)
+{
+	Node* p = head->next;
+	Node* q = head->next;
+	//当删除第一个结点时
+	if (q == point)
+	{
+		head->next = p->next;
+		return;
+	}
+	//当只有一个节点时
+	if (q->next == NULL)
+	{
+		head->next = NULL;
+		return;
+	}
+	while (q->next != NULL)
+	{
+		q = q->next;
+		if (q == point)
+		{
+			q = q->next;
+			p->next = q;
+			break;
+		}
+		p = q;
+	}
+}
+int main()
+{
+	Node head;
+	InitNode(&head);
+	InsertTail (&head, 1);
+	InsertTail(&head, 2);
+	InsertTail(&head, 3); 
+	InsertTail(&head, 4);
+	InsertTail(&head, 5);
+	Node* ret = SeekAddress(&head, 1);
+	DeletePoint(&head, ret);
+	Show(&head);
+	system("pause");
+	return 0;
+}
