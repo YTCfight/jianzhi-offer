@@ -1,0 +1,74 @@
+//翻转链表（三个指针）
+typedef struct Node
+{
+	int data;
+	struct Node* next;
+}Node, *pList;
+//初始化单链表
+void InitNode(pList head)
+{
+	head->data = -1;
+	head->next = NULL;
+}
+//得到一个结点
+Node* GetNode(int val)
+{
+	Node* pGet = (Node*)malloc(sizeof(Node));
+	assert(pGet != NULL);
+	pGet->data = val;
+	pGet->next = NULL;
+	return pGet;
+}
+//尾插法
+void InsertTail(Node* head, int val)
+{
+	Node* p = GetNode(val);
+	assert(p != NULL);
+	Node* q = head;
+	while (q->next != NULL)
+	{
+		q = q->next;
+	}
+	q->next = p;
+}
+void Show(pList head)
+{
+	Node* p = head;
+	while (p != NULL)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+}
+//翻转单链表(三个指针）
+Node* FlippingList(Node* head)
+{
+	Node* p = head->next;
+	Node* q = p->next;
+	Node* k = q->next;
+	p->next = NULL;
+	while (k != NULL)
+	{
+		q->next = p;
+		p = q;
+		q = k;
+		k = k->next;
+	}
+	q->next = p;
+	return q;
+}
+int main()
+{
+	Node head;
+	InitNode(&head);
+	InsertTail(&head, 1);
+	InsertTail(&head, 2);
+	InsertTail(&head, 3);
+	InsertTail(&head, 4);
+	InsertTail(&head, 5);
+	Node* ret=FlippingList(&head);
+	Show(ret);
+	system("pause");
+	return 0;
+}
