@@ -1,0 +1,145 @@
+ //合并两个排序的链表
+typedef struct Node
+{
+	int data;
+	struct Node* next;
+}Node, *pList;
+//初始化单链表
+void InitNode(pList head)
+{
+	head->data = -1;
+	head->next = NULL;
+}
+//得到一个结点
+Node* GetNode(int val)
+{
+	Node* pGet = (Node*)malloc(sizeof(Node));
+	assert(pGet != NULL);
+	pGet->data = val;
+	pGet->next = NULL;
+	return pGet;
+}
+//尾插法
+void InsertTail(Node* head, int val)
+{
+	Node* p = GetNode(val);
+	assert(p != NULL);
+	Node* q = head;
+	while (q->next != NULL)
+	{
+		q = q->next;
+	}
+	q->next = p;
+}
+void Show(pList head)
+{
+	Node* p = head->next;
+	while (p != NULL)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+}
+//合并两个排序的链表
+Node* ListMergedSort(Node* head, Node* head1)
+{
+	Node* p = head->next;
+	Node* q = head1->next;
+	Node* h = head;
+	Node* k = h;
+	while (h->next != NULL)
+	{
+		//当p的数值小于q的数值时
+		if (p->data < q->data)
+		{
+			h->next = p;
+			h = p;
+			//当p指向最后一个节点时，并且q没有指向最后一个结点时，让p的最后一个结点指向q的当前节点，并且q一直往后走
+			if (p->next == NULL && q->next != NULL)
+			{
+				while (q != NULL)
+				{
+					h->next = q;
+					h = q;
+					q = q->next;
+				}
+				return k;
+			}
+			//当p跟q都指向最后一个结点，并且p的值小于q的值时
+			else if (p->next == NULL && q->next == NULL)
+			{
+				h->next = q;
+				return k;
+			}
+			else
+			{
+				p = p->next;
+			}
+		}
+		//当p的数值大于q的数值时
+		else if (p->data>q->data)
+		{
+			h->next = q;
+			h = q;
+			//当q指向最后一个节点时，并且p没有指向最后一个结点时，让q的最后一个结点指向p的当前节点，并且p一直往后走
+			if (q->next == NULL && p->next != NULL)
+			{
+				while (p != NULL)
+				{
+					h->next = p;
+					h = p;
+					p = p->next;
+				}
+				return k;
+			}
+			//当p跟p都指向最后一个结点，并且q的值小于q的值时
+			else if (p->next == NULL && q->next == NULL)
+			{
+				h->next = p;
+				return k;
+			}
+			else
+			{
+				q = q->next;
+			}
+		}
+		//当p跟q的数值相等时
+		else if (p->data == q->data)
+		{
+			h->next = p;
+			h = p;
+			p = p->next;
+			h->next = q;
+			h = q;
+			q = q->next;
+			if (p == NULL && q == NULL)
+			{
+				return k;
+			}
+		}
+	}
+}
+int main()
+{
+	Node head;
+	Node head1;
+	InitNode(&head);
+	InitNode(&head1);
+	InsertTail(&head, 1);
+	InsertTail(&head, 2);
+	InsertTail(&head, 3);
+	InsertTail(&head, 4);
+	InsertTail(&head, 5);
+	Show(&head);
+	InsertTail(&head1, 1);
+	InsertTail(&head1, 4);
+	InsertTail(&head1, 8);
+	InsertTail(&head1, 9);
+	InsertTail(&head1, 10);
+	Show(&head1);
+	Node* k=ListMergedSort(&head, &head1);
+	Show(k);
+	system("pause");
+	return 0;
+}
