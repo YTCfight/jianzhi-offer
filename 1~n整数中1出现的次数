@@ -1,0 +1,29 @@
+class Solution {
+    public int countDigitOne(int n) {
+       if (n == 0) {
+           return 0;
+       }
+       int a = help1(n);
+       int b = help2(a);
+       int c = n / b;
+       if (c == 1) {
+           return n % b + 1 + countDigitOne(b - 1) + countDigitOne(n % b);
+       }
+       return b + c * countDigitOne(b - 1) + countDigitOne(n % b);
+    }
+    public int help1(int n) {
+        int count = -1;
+        while(n != 0) {
+            count++;
+            n /= 10;
+        }
+        return count;
+    }
+    public int help2(int n) {
+        int count = 1;
+        while(n != 0) {
+            count *= 10;
+            n--;
+        }
+        return count;
+    }
