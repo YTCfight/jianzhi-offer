@@ -1,0 +1,23 @@
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        return help(postorder, 0, postorder.length - 1);
+    }
+    public boolean help(int[] postorder, int left, int right) {
+        if (left >= right) {
+            return true;
+        }
+        int root = postorder[right];
+        int l = left;
+        while(l < right && postorder[l] < root) {
+            l++;
+        }
+        int r = l;
+        while(l < right && postorder[r] > root) {
+            r++;
+        }
+        if (r != right) {
+            return false;
+        }
+        return help(postorder, left, l - 1) && help(postorder, l, right - 1);
+    }
+}
