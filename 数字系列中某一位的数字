@@ -1,0 +1,25 @@
+class Solution {
+    public int findNthDigit(int n) {
+        if (n < 10) {
+            return n;
+        }
+        int power = 1;
+        int count = 0;
+        while(true) {
+            count = help(power);
+            if (count > n) {
+                break;
+            }
+            n -= count;
+            power++;
+        }
+        int res = (int)Math.pow(10, power - 1) + n / power;
+        return String.valueOf(res).charAt(n % power) - '0';
+    }
+    public int help(int n) {
+        if (n == 1) {
+            return 10;
+        }
+        return (int)(Math.pow(10, n - 1) * 9 * n);
+    }
+}
