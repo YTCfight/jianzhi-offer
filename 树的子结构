@@ -1,0 +1,33 @@
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
+            return false;
+        }
+        boolean flag = false;
+        if (A.val == B.val) {
+            flag = isSmae(A, B);
+        }
+        if (!flag) {
+            flag = isSubStructure(A.left, B);
+        }
+        if (!flag) {
+            flag = isSubStructure(A.right, B);
+        }
+        return flag;
+    }
+    public boolean isSmae(TreeNode a, TreeNode b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null && b != null) {
+            return false;
+        }
+        if (a != null && b == null) {
+            return true;
+        }
+        if (a.val != b.val) {
+            return false;
+        }
+        return isSmae(a.left, b.left) && isSmae(a.right, b.right);
+    }
+}
