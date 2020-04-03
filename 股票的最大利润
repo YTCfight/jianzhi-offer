@@ -13,7 +13,7 @@ class Solution {
             if (res < prices[i] - start) {
                 res = prices[i] - start;
             }
-        }
+        } 
         return res;
     }
 }
