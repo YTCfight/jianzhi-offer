@@ -8,7 +8,7 @@ class Solution {
         for (int i = 0; i < prices.length; i++) {
             if (prices[i] < start) {
                 start = prices[i];
-                continue;
+                continue; 
             }
             if (res < prices[i] - start) {
                 res = prices[i] - start;
