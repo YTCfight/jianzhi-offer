@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isStraight(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        Arrays.sort(nums);
+        int numOfZero = 0;
+       for (int i = 0; i < nums.length - 1; i++) {
+           if (nums[i] == 0) {
+               numOfZero++;
+               continue;
+           }
+           int ret = nums[i + 1] - nums[i];
+           if (ret == 0) {
+               return false;
+           }
+           while(ret != 1) {
+               numOfZero--;
+               ret--;
+           }
+           if (numOfZero < 0) {
+               return false;
+           }
+       }
+       return true;
+    }
+}
