@@ -6,7 +6,7 @@ class Solution {
         long res = 1;
         while(n > 4) {
             res *= 3;
-            n -= 3;
+            n -= 3; 
         } 
         return (int)res * n;
     }
