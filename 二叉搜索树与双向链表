@@ -1,0 +1,32 @@
+class Solution {
+    Node pre;
+    public Node treeToDoublyList(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node p = root;
+        Node q = root;
+        while(p.left != null) {
+            p = p.left;
+        }
+        while(q.right != null) {
+            q = q.right;
+        }
+        help(root);
+        p.left = q;
+        q.right = p;
+        return p;
+    }
+    public void help(Node root) {
+        if (root == null) {
+            return;
+        }
+        help(root.left);
+        root.left = pre;
+        if (pre != null) {
+            pre.right = root;
+        }
+        pre = root;
+        help(root.right);
+    }
+}
