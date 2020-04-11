@@ -22,7 +22,7 @@ class Solution {
             if (nums[i] <= nums[j]) {
                 arr[index++] = nums[i++];
             } else {
-                arr[index++] = nums[j++];
+                arr[index++] = nums[j++]; 
                 count += mid + 1 -i;
             }
         }
